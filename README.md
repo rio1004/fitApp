@@ -25,6 +25,14 @@ In the output, you'll find options to open the app in a
 
 You can start developing by editing the files inside the **app** directory. This project uses [file-based routing](https://docs.expo.dev/router/introduction).
 
+## Tamagui
+
+`tamagui.config.ts` initializes the v5 preset with system fonts, tokens, and light/dark themes. `src/app/_layout.tsx` supplies that configuration through `TamaguiProvider` to every route. Import UI components from `tamagui`; the Home screen includes a Card, heading, paragraph, and navigation button as a working example.
+
+Both full style names (`padding`, `backgroundColor`) and Tamagui shorthands are enabled. This uses Tamagui at runtime without the optional optimizing compiler.
+
+After changing the setup, restart Metro with `npx expo start --clear`.
+
 ## Get a fresh project
 
 When you're ready, run:

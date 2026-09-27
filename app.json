@@ -17,7 +17,8 @@
         "backgroundImage": "./assets/images/android-icon-background.png",
         "monochromeImage": "./assets/images/android-icon-monochrome.png"
       },
-      "predictiveBackGestureEnabled": false
+      "predictiveBackGestureEnabled": false,
+      "package": "com.anonymous.fitApp"
     },
     "web": {
       "output": "static",
@@ -31,6 +32,17 @@
           "backgroundColor": "#208AEF",
           "image": "./assets/images/splash-icon.png",
           "imageWidth": 76
+        }
+      ],
+      [
+        "expo-font",
+        {
+          "fonts": [
+            "./assets/fonts/SF-Pro-Text-Regular.otf",
+            "./assets/fonts/SF-Pro-Text-Medium.otf",
+            "./assets/fonts/SF-Pro-Text-Semibold.otf",
+            "./assets/fonts/SF-Pro-Text-Bold.otf"
+          ]
         }
       ]
     ],
