@@ -1,10 +1,7 @@
+import { AppButton } from "@/components/app-button";
+import CustomScreen from "@/components/screen";
 import TitleHeader from "@/components/title-header";
-import {
-  BottomTabInset,
-  Colors,
-  MaxContentWidth,
-  Spacing,
-} from "@/constants/theme";
+import { Colors } from "@/constants/theme";
 import {
   CheckCircle2,
   Dumbbell,
@@ -14,10 +11,8 @@ import {
   Utensils,
 } from "@tamagui/lucide-icons-2";
 import { ComponentType } from "react";
-import { StyleSheet, useColorScheme } from "react-native";
-import { SafeAreaView } from "react-native-safe-area-context";
+import { useColorScheme } from "react-native";
 import {
-  Button,
   Card,
   H1,
   Progress,
@@ -83,7 +78,7 @@ export default function HomeScreen() {
   );
 
   return (
-    <SafeAreaView style={styles.safeArea}>
+    <CustomScreen>
       <YStack gap={"$4"}>
         <TitleHeader hasDate={true} title="Good morning, Rio" />
         <XStack>
@@ -103,7 +98,12 @@ export default function HomeScreen() {
             </SizableText>
           </XStack>
         </XStack>
-        <Card padding={"$4"} gap={"$2"}>
+        <Card
+          padding={"$4"}
+          gap={"$2"}
+          border="0.2"
+          borderColor={colors.textSecondary}
+        >
           <SizableText fontWeight={"bold"}>Calories today</SizableText>
           <XStack alignItems="flex-end" justifyContent="space-between">
             <XStack alignItems="flex-end">
@@ -120,13 +120,17 @@ export default function HomeScreen() {
           <SizableText size="$3" color={colors.textSecondary}>
             450 kcal remaining
           </SizableText>
-          <Button backgroundColor={colors.primaryAction}>
-            <Plus color={"#fff"} />
-            <SizableText color={"#fff"}>Add food</SizableText>
-          </Button>
+          <AppButton icon={Plus} theme="primary">
+            Add food
+          </AppButton>
         </Card>
-        <Card padding={"$4"} gap={"$2"}>
-          <SizableText fontWeight={"bold"}>Today's commitments</SizableText>
+        <Card
+          padding={"$4"}
+          gap={"$2"}
+          border="0.2"
+          borderColor={colors.textSecondary}
+        >
+          <SizableText fontWeight={"bold"}>{"Today's commitments"}</SizableText>
           <XStack justifyContent="space-between">
             <SizableText size="$3" color={colors.textSecondary}>
               2 of 3 complete
@@ -154,17 +158,6 @@ export default function HomeScreen() {
           </SizableText>
         </Card>
       </YStack>
-    </SafeAreaView>
+    </CustomScreen>
   );
 }
-
-const styles = StyleSheet.create({
-  safeArea: {
-    flex: 1,
-    width: "100%",
-    alignSelf: "center",
-    paddingHorizontal: Spacing.four,
-    paddingBottom: BottomTabInset + Spacing.three,
-    maxWidth: MaxContentWidth,
-  },
-});

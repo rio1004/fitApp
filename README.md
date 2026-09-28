@@ -25,6 +25,15 @@ In the output, you'll find options to open the app in a
 
 You can start developing by editing the files inside the **app** directory. This project uses [file-based routing](https://docs.expo.dev/router/introduction).
 
+## Local Android builds
+
+Run `npm run android` to build and launch Android. This uses the project's Expo
+CLI and enables Java native access for the build process, avoiding the Java 25
+Prefab/Worklets `A restricted method in java.lang.System has been called` failure.
+Existing `JAVA_TOOL_OPTIONS` are preserved; system settings are not changed.
+Additional Expo arguments work as usual, for example `npm run android -- --device`.
+Direct `npx expo run:android` calls bypass this project-specific setup.
+
 ## Tamagui
 
 `tamagui.config.ts` initializes the v5 preset with system fonts, tokens, and light/dark themes. `src/app/_layout.tsx` supplies that configuration through `TamaguiProvider` to every route. Import UI components from `tamagui`; the Home screen includes a Card, heading, paragraph, and navigation button as a working example.
