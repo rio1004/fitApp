@@ -39,9 +39,11 @@
     "typescript": "~6.0.3"
   },
   "scripts": {
+    "postinstall": "node ./scripts/patch-expo-router.cjs",
     "start": "expo start",
     "reset-project": "node ./scripts/reset-project.js",
     "android": "node ./scripts/run-android.cjs",
+    "android:apk": "powershell -NoProfile -File ./scripts/gradle-android.ps1 assembleRelease",
     "ios": "expo run:ios",
     "web": "expo start --web",
     "lint": "expo lint"

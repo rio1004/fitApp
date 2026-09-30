@@ -60,6 +60,25 @@ This command will move the starter code to the **app-example** directory and cre
 
 ## Learn more
 
+### Local Android release APK on Windows
+
+Run `npm run android:apk` from the project root. The wrapper enables native
+access for Gradle and Prefab child JVMs, avoiding Java 24+ JNA warnings that can
+fail CMake configuration. It restores the original environment on exit.
+The APK is written to `android/app/build/outputs/apk/release/`.
+
+For other Gradle tasks use, for example:
+
+```powershell
+powershell -NoProfile -File ./scripts/gradle-android.ps1 assembleRelease --stacktrace
+```
+
+Direct `android/gradlew.bat` calls bypass this Java compatibility setup.
+The wrapper also uses `scripts/native-build-paths.gradle` to keep generated
+CMake/Prefab files in the shorter `.native-build/` directory. This avoids
+Windows path-length failures such as Ninja's `build.ninja still dirty after
+100 tries`. The directory is generated and ignored by Git.
+
 To learn more about developing your project with Expo, look at the following resources:
 
 - [Expo documentation](https://docs.expo.dev/): Learn fundamentals, or go into advanced topics with our [guides](https://docs.expo.dev/guides).

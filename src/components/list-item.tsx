@@ -1,16 +1,14 @@
 import { Colors } from "@/constants/theme";
+import { CheckCircle2 } from "@tamagui/lucide-icons-2";
 import { ComponentType } from "react";
 import { useColorScheme } from "react-native";
 import { Separator, SizableText, XStack, YStack } from "tamagui";
-
 type ListProps = {
   icon: ComponentType<any>;
   commitmentType: string;
   time: string;
   status: string;
 };
-
-import { CheckCircle2 } from "@tamagui/lucide-icons-2";
 
 export const ListComponent = ({
   icon: Icon,

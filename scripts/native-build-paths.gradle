@@ -1,0 +1,13 @@
+// Keep generated CMake/Prefab paths below Windows native tool limits.
+// Loaded by the Windows build wrapper, outside Expo-generated android files.
+gradle.beforeProject { project ->
+    ["com.android.application", "com.android.library"].each { pluginId ->
+        project.plugins.withId(pluginId) {
+            project.extensions.getByName("androidComponents").finalizeDsl { android ->
+                def cacheName = project.path.substring(1).replace(':', '_').replace('react-native-', 'rn-')
+                android.externalNativeBuild.cmake.buildStagingDirectory =
+                    new File(project.rootDir.parentFile, ".native-build/${cacheName}")
+            }
+        }
+    }
+}
