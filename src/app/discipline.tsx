@@ -65,7 +65,11 @@ export default function DisciplineScreen() {
   const WeekItem = ({ day, status }: WeekItemProps) => (
     <YStack>
       <SizableText>{day}</SizableText>
-      <CheckCircle2 fill={theme.primaryAction.get()} color="$onPrimary" size={"$3"} />
+      <CheckCircle2
+        fill={theme.primaryAction.get()}
+        color="$onPrimary"
+        size={"$3"}
+      />
     </YStack>
   );
   return (
@@ -74,7 +78,7 @@ export default function DisciplineScreen() {
         <TitleHeader hasDate={false} title="Discipline" />
         <XStack
           theme="accent"
-            backgroundColor="$background"
+          backgroundColor="$background"
           alignItems="center"
           padding={"$3"}
           borderRadius={"$5"}

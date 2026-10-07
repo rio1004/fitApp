@@ -8,7 +8,6 @@ type TitleProps = {
 };
 
 export default function TitleHeader({ hasDate, title }: TitleProps) {
-
   return (
     <XStack justifyContent="space-between">
       <YStack>

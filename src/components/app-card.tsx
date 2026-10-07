@@ -7,12 +7,7 @@ type CardProps = {
 };
 export const AppCard = ({ children, title }: CardProps) => {
   return (
-    <Card
-      padding={"$4"}
-      gap={"$2"}
-      borderWidth={1}
-      borderColor="$borderColor"
-    >
+    <Card padding={"$4"} gap={"$2"} borderWidth={1} borderColor="$borderColor">
       {title && <SizableText fontWeight={"bold"}>{title}</SizableText>}
       {children}
     </Card>

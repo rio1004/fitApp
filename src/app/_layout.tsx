@@ -1,8 +1,8 @@
+import { useColorScheme } from "@/hooks/use-color-scheme";
 import { useFonts } from "expo-font";
 import * as SplashScreen from "expo-splash-screen";
-import { useEffect } from "react";
-import { useColorScheme } from "@/hooks/use-color-scheme";
 import { StatusBar } from "expo-status-bar";
+import { useEffect } from "react";
 import { TamaguiProvider } from "tamagui";
 
 import { AnimatedSplashOverlay } from "@/components/animated-icon";

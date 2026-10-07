@@ -1,17 +1,33 @@
-import { useTheme } from "tamagui";
-import { ChartNoAxesColumnIncreasing, Dumbbell, House, Utensils } from "@tamagui/lucide-icons-2";
-import { Tabs, TabList, TabSlot, TabTrigger, type TabTriggerSlotProps } from "expo-router/ui";
+import {
+  ChartNoAxesColumnIncreasing,
+  Dumbbell,
+  House,
+  Utensils,
+} from "@tamagui/lucide-icons-2";
+import {
+  TabList,
+  Tabs,
+  TabSlot,
+  TabTrigger,
+  type TabTriggerSlotProps,
+} from "expo-router/ui";
 import { Pressable, StyleSheet, Text } from "react-native";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
+import { useTheme } from "tamagui";
 
-import { MaxContentWidth } from "@/constants/theme";
 import { FontFamily } from "@/constants/fonts";
+import { MaxContentWidth } from "@/constants/theme";
 
 const tabs = [
   { name: "home", href: "/", label: "Home", icon: House },
   { name: "calories", href: "/calories", label: "Calories", icon: Utensils },
   { name: "workout", href: "/workout", label: "Workout", icon: Dumbbell },
-  { name: "discipline", href: "/discipline", label: "Discipline", icon: ChartNoAxesColumnIncreasing },
+  {
+    name: "discipline",
+    href: "/discipline",
+    label: "Discipline",
+    icon: ChartNoAxesColumnIncreasing,
+  },
 ] as const;
 
 type TabButtonProps = TabTriggerSlotProps & {
@@ -20,7 +36,14 @@ type TabButtonProps = TabTriggerSlotProps & {
   inactiveColor: string;
 };
 
-function TabButton({ tab, activeColor, inactiveColor, isFocused, style, ...props }: TabButtonProps) {
+function TabButton({
+  tab,
+  activeColor,
+  inactiveColor,
+  isFocused,
+  style,
+  ...props
+}: TabButtonProps) {
   const Icon = tab.icon;
   const color = isFocused ? activeColor : inactiveColor;
 
@@ -36,8 +59,20 @@ function TabButton({ tab, activeColor, inactiveColor, isFocused, style, ...props
         state.pressed && styles.pressed,
       ]}
     >
-      <Icon size={24} color={isFocused ? "$primaryAction" : "$textSecondary"} strokeWidth={isFocused ? 2.5 : 1.8} />
-      <Text style={[styles.label, { color, fontFamily: isFocused ? FontFamily.semibold : FontFamily.regular }]}>
+      <Icon
+        size={24}
+        color={isFocused ? "$primaryAction" : "$textSecondary"}
+        strokeWidth={isFocused ? 2.5 : 1.8}
+      />
+      <Text
+        style={[
+          styles.label,
+          {
+            color,
+            fontFamily: isFocused ? FontFamily.semibold : FontFamily.regular,
+          },
+        ]}
+      >
         {tab.label}
       </Text>
     </Pressable>
@@ -49,7 +84,9 @@ export default function AppTabs() {
   const insets = useSafeAreaInsets();
 
   return (
-    <Tabs style={[styles.container, { backgroundColor: theme.background.get() }]}>
+    <Tabs
+      style={[styles.container, { backgroundColor: theme.background.get() }]}
+    >
       <TabSlot style={styles.container} />
       <TabList
         style={[

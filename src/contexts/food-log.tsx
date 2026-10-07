@@ -1,19 +1,12 @@
 import { createContext, ReactNode, useContext, useState } from 'react';
 import { AddFoodModal } from '@/components/add-food-modal';
 
-export const meals = ['Breakfast', 'Lunch', 'Dinner', 'Snack'] as const;
-export type Meal = (typeof meals)[number];
-export type FoodEntry = { id: string; name: string; calories: number; meal: Meal; date: string };
-export const calorieGoal = 2100;
+import { FoodEntry } from '@/constants/food-log';
+import { dateKey } from '@/utils/dates';
 
-export function dateKey(date = new Date()) {
-  return `${date.getFullYear()}-${String(date.getMonth() + 1).padStart(2, '0')}-${String(date.getDate()).padStart(2, '0')}`;
-}
-
-export function dateLabel(date: string) {
-  const formatted = new Date(`${date}T12:00:00`).toLocaleDateString('en-US', { month: 'short', day: 'numeric' });
-  return date === dateKey() ? `Today, ${formatted}` : formatted;
-}
+export { meals, calorieGoal } from '@/constants/food-log';
+export type { FoodEntry, Meal } from '@/constants/food-log';
+export { dateKey, dateLabel } from '@/utils/dates';
 
 const FoodLogContext = createContext<{
   entries: FoodEntry[];

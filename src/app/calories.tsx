@@ -2,6 +2,12 @@ import { AppButton } from "@/components/app-button";
 import CustomScreen from "@/components/screen";
 import TitleHeader from "@/components/title-header";
 import {
+  calorieGoal,
+  dateKey,
+  dateLabel,
+  useFoodLog,
+} from "@/contexts/food-log";
+import {
   ChevronLeft,
   ChevronRight,
   Cookie,
@@ -11,7 +17,6 @@ import {
   Sun,
 } from "@tamagui/lucide-icons-2";
 import { ComponentType, useState } from "react";
-import { calorieGoal, dateKey, dateLabel, useFoodLog } from "@/contexts/food-log";
 import {
   Button,
   Card,
@@ -60,8 +65,9 @@ export default function HomeScreen() {
   const [selectedDate, setSelectedDate] = useState(dateKey);
   const dailyEntries = entries.filter((entry) => entry.date === selectedDate);
   const baseTotal = selectedDate === dateKey() ? 1650 : 0;
-  const total = baseTotal + dailyEntries.reduce((sum, entry) => sum + entry.calories, 0);
-  const percent = Math.round(total / calorieGoal * 100);
+  const total =
+    baseTotal + dailyEntries.reduce((sum, entry) => sum + entry.calories, 0);
+  const percent = Math.round((total / calorieGoal) * 100);
   function shiftDate(days: number) {
     const date = new Date(`${selectedDate}T12:00:00`);
     date.setDate(date.getDate() + days);
@@ -74,12 +80,7 @@ export default function HomeScreen() {
     calorie,
     food,
   }: ListProps) => (
-    <Card
-      padding={"$4"}
-      gap={"$2"}
-      borderWidth={1}
-      borderColor="$borderColor"
-    >
+    <Card padding={"$4"} gap={"$2"} borderWidth={1} borderColor="$borderColor">
       <XStack alignItems="center" justifyContent="space-between">
         <XStack alignItems="center" gap={"$5"}>
           <Icon size="$3" />
@@ -103,9 +104,23 @@ export default function HomeScreen() {
       <YStack gap={"$4"}>
         <TitleHeader hasDate={false} title="Calories" />
         <XStack gap={"$6"} justifyContent="center">
-          <Button chromeless icon={ChevronLeft} minHeight={48} accessibilityLabel="Previous day" onPress={() => shiftDate(-1)} />
-          <SizableText alignSelf="center" fontWeight={"bold"}>{dateLabel(selectedDate)}</SizableText>
-          <Button chromeless icon={ChevronRight} minHeight={48} accessibilityLabel="Next day" onPress={() => shiftDate(1)} />
+          <Button
+            chromeless
+            icon={ChevronLeft}
+            minHeight={48}
+            accessibilityLabel="Previous day"
+            onPress={() => shiftDate(-1)}
+          />
+          <SizableText alignSelf="center" fontWeight={"bold"}>
+            {dateLabel(selectedDate)}
+          </SizableText>
+          <Button
+            chromeless
+            icon={ChevronRight}
+            minHeight={48}
+            accessibilityLabel="Next day"
+            onPress={() => shiftDate(1)}
+          />
         </XStack>
         <Card
           padding={"$4"}
@@ -122,11 +137,15 @@ export default function HomeScreen() {
               {percent}%
             </SizableText>
           </XStack>
-          <Progress backgroundColor="$progressTrack" value={Math.min(percent, 100)}>
+          <Progress
+            backgroundColor="$progressTrack"
+            value={Math.min(percent, 100)}
+          >
             <Progress.Indicator backgroundColor="$primaryAction" />
           </Progress>
           <SizableText size="$3" color="$textSecondary">
-            {Math.abs(calorieGoal - total).toLocaleString()} kcal {total > calorieGoal ? 'over goal' : 'remaining'}
+            {Math.abs(calorieGoal - total).toLocaleString()} kcal{" "}
+            {total > calorieGoal ? "over goal" : "remaining"}
           </SizableText>
         </Card>
         {calories &&
@@ -134,12 +153,34 @@ export default function HomeScreen() {
             <ListComponent
               lunchType={item.lunchType}
               icon={item.icon}
-              food={dailyEntries.filter((entry) => entry.meal === (item.lunchType === 'Snacks' ? 'Snack' : item.lunchType)).map((entry) => entry.name).join(', ') || (baseTotal ? item.food : 'No foods logged')}
-              calorie={String((baseTotal ? Number(item.calorie) : 0) + dailyEntries.filter((entry) => entry.meal === (item.lunchType === 'Snacks' ? 'Snack' : item.lunchType)).reduce((sum, entry) => sum + entry.calories, 0))}
+              food={
+                dailyEntries
+                  .filter(
+                    (entry) =>
+                      entry.meal ===
+                      (item.lunchType === "Snacks" ? "Snack" : item.lunchType),
+                  )
+                  .map((entry) => entry.name)
+                  .join(", ") || (baseTotal ? item.food : "No foods logged")
+              }
+              calorie={String(
+                (baseTotal ? Number(item.calorie) : 0) +
+                  dailyEntries
+                    .filter(
+                      (entry) =>
+                        entry.meal ===
+                        (item.lunchType === "Snacks"
+                          ? "Snack"
+                          : item.lunchType),
+                    )
+                    .reduce((sum, entry) => sum + entry.calories, 0),
+              )}
               key={item.lunchType}
             />
           ))}
-        <AppButton icon={Plus} onPress={() => openAddFood(selectedDate)}>Add food</AppButton>
+        <AppButton icon={Plus} onPress={() => openAddFood(selectedDate)}>
+          Add food
+        </AppButton>
       </YStack>
     </CustomScreen>
   );

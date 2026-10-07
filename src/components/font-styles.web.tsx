@@ -9,11 +9,14 @@ const faces = [
   [FontFamily.display, FontFamily.display, "700"],
 ] as const;
 
-const css = faces.map(([family, assetName, weight]) => {
-  const source = fontAssets[assetName];
-  const uri = typeof source === "string" ? source : source.uri ?? source.default;
-  return `@font-face { font-family: '${family}'; src: url(${JSON.stringify(uri)}) format('opentype'); font-weight: ${weight}; font-style: normal; font-display: swap; }`;
-}).join("\n");
+const css = faces
+  .map(([family, assetName, weight]) => {
+    const source = fontAssets[assetName];
+    const uri =
+      typeof source === "string" ? source : (source.uri ?? source.default);
+    return `@font-face { font-family: '${family}'; src: url(${JSON.stringify(uri)}) format('opentype'); font-weight: ${weight}; font-style: normal; font-display: swap; }`;
+  })
+  .join("\n");
 
 export default function FontStyles() {
   return <style>{css}</style>;

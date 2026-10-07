@@ -1,6 +1,5 @@
 import { Button, styled } from "tamagui";
 
-// Shared action geometry from output/ui-reference; colors come from the theme.
 export const AppButton = styled(Button, {
   theme: "primary",
   minHeight: 48,
@@ -14,7 +13,6 @@ export const AppButton = styled(Button, {
   fontWeight: "600",
   color: "$color",
   gap: 8,
-  // Tamagui resolves numeric iconSize to half its value.
   iconSize: 40,
   disabledStyle: { opacity: 0.5 },
 

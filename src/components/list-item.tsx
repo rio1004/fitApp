@@ -27,7 +27,11 @@ export const ListComponent = ({
             </SizableText>
           </YStack>
         </XStack>
-        <CheckCircle2 fill={theme.primaryAction.get()} color="$onPrimary" size={"$3"} />
+        <CheckCircle2
+          fill={theme.primaryAction.get()}
+          color="$onPrimary"
+          size={"$3"}
+        />
       </XStack>
       <Separator my={"$2"} />
     </>

@@ -1,16 +1,7 @@
-import {
-  useTheme,
-  Card,
-  H1,
-  Progress,
-  Separator,
-  SizableText,
-  XStack,
-  YStack,
-} from "tamagui";
 import { AppButton } from "@/components/app-button";
 import CustomScreen from "@/components/screen";
 import TitleHeader from "@/components/title-header";
+import { calorieGoal, dateKey, useFoodLog } from "@/contexts/food-log";
 import {
   CheckCircle2,
   Dumbbell,
@@ -20,7 +11,16 @@ import {
   Utensils,
 } from "@tamagui/lucide-icons-2";
 import { ComponentType } from "react";
-import { calorieGoal, dateKey, useFoodLog } from "@/contexts/food-log";
+import {
+  Card,
+  H1,
+  Progress,
+  Separator,
+  SizableText,
+  useTheme,
+  XStack,
+  YStack,
+} from "tamagui";
 
 type ListProps = {
   icon: ComponentType<any>;
@@ -53,8 +53,12 @@ const commitments: ListProps[] = [
 export default function HomeScreen() {
   const theme = useTheme();
   const { entries, openAddFood } = useFoodLog();
-  const total = 1650 + entries.filter((entry) => entry.date === dateKey()).reduce((sum, entry) => sum + entry.calories, 0);
-  const percent = Math.round(total / calorieGoal * 100);
+  const total =
+    1650 +
+    entries
+      .filter((entry) => entry.date === dateKey())
+      .reduce((sum, entry) => sum + entry.calories, 0);
+  const percent = Math.round((total / calorieGoal) * 100);
 
   const ListComponent = ({
     icon: Icon,
@@ -73,7 +77,11 @@ export default function HomeScreen() {
             </SizableText>
           </YStack>
         </XStack>
-        <CheckCircle2 fill={theme.primaryAction.get()} color="$onPrimary" size={"$3"} />
+        <CheckCircle2
+          fill={theme.primaryAction.get()}
+          color="$onPrimary"
+          size={"$3"}
+        />
       </XStack>
       <Separator my={"$2"} />
     </>
@@ -117,11 +125,15 @@ export default function HomeScreen() {
               {percent}%
             </SizableText>
           </XStack>
-          <Progress backgroundColor="$progressTrack" value={Math.min(percent, 100)}>
+          <Progress
+            backgroundColor="$progressTrack"
+            value={Math.min(percent, 100)}
+          >
             <Progress.Indicator backgroundColor="$primaryAction" />
           </Progress>
           <SizableText size="$3" color="$textSecondary">
-            {Math.abs(calorieGoal - total).toLocaleString()} kcal {total > calorieGoal ? 'over goal' : 'remaining'}
+            {Math.abs(calorieGoal - total).toLocaleString()} kcal{" "}
+            {total > calorieGoal ? "over goal" : "remaining"}
           </SizableText>
           <AppButton icon={Plus} theme="primary" onPress={() => openAddFood()}>
             Add food
