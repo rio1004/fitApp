@@ -1,9 +1,10 @@
+import { useTheme } from "tamagui";
 import { ChartNoAxesColumnIncreasing, Dumbbell, House, Utensils } from "@tamagui/lucide-icons-2";
 import { Tabs, TabList, TabSlot, TabTrigger, type TabTriggerSlotProps } from "expo-router/ui";
-import { Pressable, StyleSheet, Text, useColorScheme } from "react-native";
+import { Pressable, StyleSheet, Text } from "react-native";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 
-import { Colors, MaxContentWidth } from "@/constants/theme";
+import { MaxContentWidth } from "@/constants/theme";
 import { FontFamily } from "@/constants/fonts";
 
 const tabs = [
@@ -15,8 +16,8 @@ const tabs = [
 
 type TabButtonProps = TabTriggerSlotProps & {
   tab: (typeof tabs)[number];
-  activeColor: typeof Colors.light.primaryAction | typeof Colors.dark.accentSurface;
-  inactiveColor: typeof Colors.light.textSecondary | typeof Colors.dark.textSecondary;
+  activeColor: string;
+  inactiveColor: string;
 };
 
 function TabButton({ tab, activeColor, inactiveColor, isFocused, style, ...props }: TabButtonProps) {
@@ -35,7 +36,7 @@ function TabButton({ tab, activeColor, inactiveColor, isFocused, style, ...props
         state.pressed && styles.pressed,
       ]}
     >
-      <Icon size={24} color={color} strokeWidth={isFocused ? 2.5 : 1.8} />
+      <Icon size={24} color={isFocused ? "$primaryAction" : "$textSecondary"} strokeWidth={isFocused ? 2.5 : 1.8} />
       <Text style={[styles.label, { color, fontFamily: isFocused ? FontFamily.semibold : FontFamily.regular }]}>
         {tab.label}
       </Text>
@@ -44,19 +45,18 @@ function TabButton({ tab, activeColor, inactiveColor, isFocused, style, ...props
 }
 
 export default function AppTabs() {
-  const isDark = useColorScheme() === "dark";
-  const colors = Colors[isDark ? "dark" : "light"];
+  const theme = useTheme();
   const insets = useSafeAreaInsets();
 
   return (
-    <Tabs style={[styles.container, { backgroundColor: colors.background }]}>
+    <Tabs style={[styles.container, { backgroundColor: theme.background.get() }]}>
       <TabSlot style={styles.container} />
       <TabList
         style={[
           styles.bar,
           {
-            backgroundColor: isDark ? colors.backgroundElement : "#FFFFFF",
-            borderTopColor: isDark ? colors.backgroundSelected : Colors.light.borderColor,
+            backgroundColor: theme.surface.get(),
+            borderTopColor: theme.borderColor.get(),
             paddingBottom: Math.max(insets.bottom, 8),
             paddingLeft: Math.max(insets.left, 8),
             paddingRight: Math.max(insets.right, 8),
@@ -67,8 +67,8 @@ export default function AppTabs() {
           <TabTrigger key={tab.name} name={tab.name} href={tab.href} asChild>
             <TabButton
               tab={tab}
-              activeColor={isDark ? colors.accentSurface : colors.primaryAction}
-              inactiveColor={colors.textSecondary}
+              activeColor={theme.primaryAction.get()}
+              inactiveColor={theme.textSecondary.get()}
             />
           </TabTrigger>
         ))}

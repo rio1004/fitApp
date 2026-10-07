@@ -1,6 +1,4 @@
-import { Colors } from "@/constants/theme";
 import { ReactNode } from "react";
-import { useColorScheme } from "react-native";
 import { Card, SizableText } from "tamagui";
 
 type CardProps = {
@@ -8,14 +6,12 @@ type CardProps = {
   title?: string;
 };
 export const AppCard = ({ children, title }: CardProps) => {
-  const scheme = useColorScheme();
-  const colors = Colors[scheme === "unspecified" ? "light" : scheme];
   return (
     <Card
       padding={"$4"}
       gap={"$2"}
-      border="0.2"
-      borderColor={colors.textSecondary}
+      borderWidth={1}
+      borderColor="$borderColor"
     >
       {title && <SizableText fontWeight={"bold"}>{title}</SizableText>}
       {children}

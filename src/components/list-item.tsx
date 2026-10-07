@@ -1,8 +1,6 @@
-import { Colors } from "@/constants/theme";
+import { useTheme, Separator, SizableText, XStack, YStack } from "tamagui";
 import { CheckCircle2 } from "@tamagui/lucide-icons-2";
 import { ComponentType } from "react";
-import { useColorScheme } from "react-native";
-import { Separator, SizableText, XStack, YStack } from "tamagui";
 type ListProps = {
   icon: ComponentType<any>;
   commitmentType: string;
@@ -16,8 +14,7 @@ export const ListComponent = ({
   time,
   status,
 }: ListProps) => {
-  const scheme = useColorScheme();
-  const colors = Colors[scheme === "unspecified" ? "light" : scheme];
+  const theme = useTheme();
   return (
     <>
       <XStack alignItems="center" justifyContent="space-between">
@@ -25,12 +22,12 @@ export const ListComponent = ({
           <Icon />
           <YStack>
             <SizableText fontWeight={"bold"}>{commitmentType}</SizableText>
-            <SizableText size="$3" color={colors.textSecondary}>
+            <SizableText size="$3" color="$textSecondary">
               {time} - {status}
             </SizableText>
           </YStack>
         </XStack>
-        <CheckCircle2 fill={colors.primaryAction} color={"#fff"} size={"$3"} />
+        <CheckCircle2 fill={theme.primaryAction.get()} color="$onPrimary" size={"$3"} />
       </XStack>
       <Separator my={"$2"} />
     </>

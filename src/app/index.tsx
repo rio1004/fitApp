@@ -1,7 +1,16 @@
+import {
+  useTheme,
+  Card,
+  H1,
+  Progress,
+  Separator,
+  SizableText,
+  XStack,
+  YStack,
+} from "tamagui";
 import { AppButton } from "@/components/app-button";
 import CustomScreen from "@/components/screen";
 import TitleHeader from "@/components/title-header";
-import { Colors } from "@/constants/theme";
 import {
   CheckCircle2,
   Dumbbell,
@@ -11,16 +20,6 @@ import {
   Utensils,
 } from "@tamagui/lucide-icons-2";
 import { ComponentType } from "react";
-import { useColorScheme } from "react-native";
-import {
-  Card,
-  H1,
-  Progress,
-  Separator,
-  SizableText,
-  XStack,
-  YStack,
-} from "tamagui";
 
 type ListProps = {
   icon: ComponentType<any>;
@@ -51,8 +50,7 @@ const commitments: ListProps[] = [
 ];
 
 export default function HomeScreen() {
-  const scheme = useColorScheme();
-  const colors = Colors[scheme === "unspecified" ? "light" : scheme];
+  const theme = useTheme();
 
   const ListComponent = ({
     icon: Icon,
@@ -66,12 +64,12 @@ export default function HomeScreen() {
           <Icon />
           <YStack>
             <SizableText fontWeight={"bold"}>{commitmentType}</SizableText>
-            <SizableText size="$3" color={colors.textSecondary}>
+            <SizableText size="$3" color="$textSecondary">
               {time} - {status}
             </SizableText>
           </YStack>
         </XStack>
-        <CheckCircle2 fill={colors.primaryAction} color={"#fff"} size={"$3"} />
+        <CheckCircle2 fill={theme.primaryAction.get()} color="$onPrimary" size={"$3"} />
       </XStack>
       <Separator my={"$2"} />
     </>
@@ -83,7 +81,8 @@ export default function HomeScreen() {
         <TitleHeader hasDate={true} title="Good morning, Rio" />
         <XStack>
           <XStack
-            backgroundColor={colors.accentSurface}
+            theme="accent"
+            backgroundColor="$background"
             borderRadius={"$radius.9"}
             padding={5}
             paddingHorizontal={20}
@@ -101,8 +100,8 @@ export default function HomeScreen() {
         <Card
           padding={"$4"}
           gap={"$2"}
-          border="0.2"
-          borderColor={colors.textSecondary}
+          borderWidth={1}
+          borderColor="$borderColor"
         >
           <SizableText fontWeight={"bold"}>Calories today</SizableText>
           <XStack alignItems="flex-end" justifyContent="space-between">
@@ -110,14 +109,14 @@ export default function HomeScreen() {
               <H1>1,650</H1>
               <SizableText>/2,100 kcal</SizableText>
             </XStack>
-            <SizableText color={colors.primaryAction} fontWeight={"bold"}>
+            <SizableText color="$primaryAction" fontWeight={"bold"}>
               79%
             </SizableText>
           </XStack>
-          <Progress value={70}>
-            <Progress.Indicator backgroundColor={colors.primaryAction} />
+          <Progress backgroundColor="$progressTrack" value={70}>
+            <Progress.Indicator backgroundColor="$primaryAction" />
           </Progress>
-          <SizableText size="$3" color={colors.textSecondary}>
+          <SizableText size="$3" color="$textSecondary">
             450 kcal remaining
           </SizableText>
           <AppButton icon={Plus} theme="primary">
@@ -127,20 +126,20 @@ export default function HomeScreen() {
         <Card
           padding={"$4"}
           gap={"$2"}
-          border="0.2"
-          borderColor={colors.textSecondary}
+          borderWidth={1}
+          borderColor="$borderColor"
         >
           <SizableText fontWeight={"bold"}>{"Today's commitments"}</SizableText>
           <XStack justifyContent="space-between">
-            <SizableText size="$3" color={colors.textSecondary}>
+            <SizableText size="$3" color="$textSecondary">
               2 of 3 complete
             </SizableText>
-            <SizableText color={colors.primaryAction} fontWeight={"bold"}>
+            <SizableText color="$primaryAction" fontWeight={"bold"}>
               67%
             </SizableText>
           </XStack>
-          <Progress value={60}>
-            <Progress.Indicator backgroundColor={colors.primaryAction} />
+          <Progress backgroundColor="$progressTrack" value={60}>
+            <Progress.Indicator backgroundColor="$primaryAction" />
           </Progress>
           <Separator my={"$3"} />
           {commitments &&
@@ -153,7 +152,7 @@ export default function HomeScreen() {
                 key={item.commitmentType}
               />
             ))}
-          <SizableText size="$2" color={colors.textSecondary}>
+          <SizableText size="$2" color="$textSecondary">
             One commitment at a time
           </SizableText>
         </Card>

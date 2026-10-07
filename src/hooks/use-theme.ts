@@ -1,9 +1,2 @@
-import { Colors } from "@/constants/theme";
-import { useColorScheme } from "@/hooks/use-color-scheme";
-
-export function useTheme() {
-  const scheme = useColorScheme();
-  const theme = scheme === "unspecified" ? "light" : scheme;
-
-  return Colors[theme];
-}
+// Theme access uses the active Tamagui context.
+export { useTheme } from "tamagui";

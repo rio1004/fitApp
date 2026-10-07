@@ -1,8 +1,6 @@
 import { H3, SizableText, XStack, YStack } from "tamagui";
 
-import { Colors } from "@/constants/theme";
 import { Settings } from "@tamagui/lucide-icons-2";
-import { useColorScheme } from "react-native";
 
 type TitleProps = {
   hasDate: boolean;
@@ -10,14 +8,12 @@ type TitleProps = {
 };
 
 export default function TitleHeader({ hasDate, title }: TitleProps) {
-  const scheme = useColorScheme();
-  const colors = Colors[scheme === "unspecified" ? "light" : scheme];
 
   return (
     <XStack justifyContent="space-between">
       <YStack>
         {hasDate ? (
-          <SizableText size="$3" color={colors.textSecondary}>
+          <SizableText size="$3" color="$textSecondary">
             THU, SEP 24
           </SizableText>
         ) : null}

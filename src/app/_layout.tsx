@@ -1,7 +1,8 @@
 import { useFonts } from "expo-font";
 import * as SplashScreen from "expo-splash-screen";
 import { useEffect } from "react";
-import { useColorScheme } from "react-native";
+import { useColorScheme } from "@/hooks/use-color-scheme";
+import { StatusBar } from "expo-status-bar";
 import { TamaguiProvider } from "tamagui";
 
 import { AnimatedSplashOverlay } from "@/components/animated-icon";
@@ -35,7 +36,7 @@ export default function TabLayout() {
       <AnimatedSplashOverlay />
       <AppTabs />
 
-      {/* </ThemeProvider> */}
+      <StatusBar style={colorScheme === "dark" ? "light" : "dark"} />
     </TamaguiProvider>
   );
 }

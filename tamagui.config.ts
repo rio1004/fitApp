@@ -2,39 +2,83 @@ import { defaultConfig } from "@tamagui/config/v5";
 import { createFont, createTamagui } from "tamagui";
 
 import { FontFamily } from "@/constants/fonts";
-import { Colors } from "@/constants/theme";
-
-const primaryButtonTheme = {
-  background: "#246B4B",
-  backgroundHover: "#205F43",
-  backgroundPress: "#1B5139",
-  backgroundFocus: Colors.light.primaryAction,
-  color: "#ffffff",
-  colorHover: "#ffffff",
-  colorPress: "#ffffff",
-  colorFocus: "#ffffff",
-  borderColor: "transparent",
-  borderColorHover: "transparent",
-  borderColorPress: "transparent",
-  borderColorFocus: "transparent",
-  outlineColor: Colors.light.primaryAction,
+// All app colors are defined here and consumed through Tamagui themes.
+const light = {
+  "background": "#FAFAF7",
+  "backgroundHover": "#F0F3ED",
+  "backgroundPress": "#E5EBE1",
+  "backgroundFocus": "#F0F3ED",
+  "color": "#18231F",
+  "textSecondary": "#59665F",
+  "surface": "#FFFFFF",
+  "surfaceMuted": "#EEF2EA",
+  "borderColor": "#DCE3D8",
+  "borderColorHover": "#B8C8B4",
+  "borderColorPress": "#93AD8C",
+  "borderColorFocus": "#246B4B",
+  "primaryAction": "#246B4B",
+  "primaryHover": "#205F43",
+  "primaryPress": "#1B5139",
+  "onPrimary": "#FFFFFF",
+  "accentSurface": "#DDEDB5",
+  "onAccent": "#253B1F",
+  "progressTrack": "#E4EBDE",
+  "warning": "#856021",
+  "danger": "#B42318",
+  "onDanger": "#FFFFFF",
+  "shadowColor": "#18231F",
+  "placeholderColor": "#59665F",
+  "outlineColor": "#246B4B",
+  "colorHover": "#18231F",
+  "colorPress": "#18231F",
+  "colorFocus": "#18231F"
+};
+const dark: typeof light = {
+  "background": "#111713",
+  "backgroundHover": "#1C261F",
+  "backgroundPress": "#2A382D",
+  "backgroundFocus": "#1C261F",
+  "color": "#EDF3E9",
+  "textSecondary": "#AAB8AD",
+  "surface": "#1C261F",
+  "surfaceMuted": "#263329",
+  "borderColor": "#394A3D",
+  "borderColorHover": "#526A58",
+  "borderColorPress": "#6C8973",
+  "borderColorFocus": "#A8D991",
+  "primaryAction": "#A8D991",
+  "primaryHover": "#B9E5A5",
+  "primaryPress": "#93C67B",
+  "onPrimary": "#172B1C",
+  "accentSurface": "#30432A",
+  "onAccent": "#DDEDB5",
+  "progressTrack": "#344438",
+  "warning": "#E4BD75",
+  "danger": "#FFB4AB",
+  "onDanger": "#5A1510",
+  "shadowColor": "#000000",
+  "placeholderColor": "#AAB8AD",
+  "outlineColor": "#A8D991",
+  "colorHover": "#EDF3E9",
+  "colorPress": "#EDF3E9",
+  "colorFocus": "#EDF3E9"
 };
 
-const secondaryButtonTheme = {
-  background: "#fff",
-  backgroundHover: "#F0F5ED",
-  backgroundPress: "#DDEDB5",
-  backgroundFocus: "#fff",
-  color: "#246B4B",
-  colorHover: "#246B4B",
-  colorPress: "#246B4B",
-  colorFocus: "#246B4B",
-  borderColor: "#246B4B",
-  borderColorHover: "#246B4B",
-  borderColorPress: "#246B4B",
-  borderColorFocus: "#246B4B",
-  outlineColor: "#246B4B",
-};
+function actionTheme(palette: typeof light, secondary = false) {
+  const color = secondary ? palette.primaryAction : palette.onPrimary;
+  return {
+    ...palette,
+    background: secondary ? palette.surface : palette.primaryAction,
+    backgroundHover: secondary ? palette.surfaceMuted : palette.primaryHover,
+    backgroundPress: secondary ? palette.accentSurface : palette.primaryPress,
+    backgroundFocus: secondary ? palette.surfaceMuted : palette.primaryAction,
+    color, colorHover: color, colorPress: color, colorFocus: color,
+    borderColor: palette.primaryAction,
+  };
+}
+function accentTheme(palette: typeof light) {
+  return { ...palette, background: palette.accentSurface, color: palette.onAccent };
+}
 
 export const tamaguiConfig = createTamagui({
   ...defaultConfig,
@@ -68,33 +112,19 @@ export const tamaguiConfig = createTamagui({
   },
 
   themes: {
-    ...defaultConfig.themes,
-
-    light: {
-      ...defaultConfig.themes.light,
-      color: Colors.light.text,
-      background: Colors.light.background,
-    },
-
-    dark: {
-      ...defaultConfig.themes.dark,
-      color: Colors.dark.text,
-      background: Colors.dark.background,
-    },
-    // Scheme-qualified names take priority over the preset's light_Button/dark_Button.
-    light_primary: primaryButtonTheme,
-    dark_primary: primaryButtonTheme,
-
-    light_secondary: secondaryButtonTheme,
-    dark_secondary: secondaryButtonTheme,
-
-    danger: {
-      background: "#e53935",
-      backgroundHover: "#d32f2f",
-      backgroundPress: "#c62828",
-      color: "#ffffff",
-      borderColor: "#e53935",
-    },
+    light, dark,
+    light_Card: { ...light, background: light.surface },
+    dark_Card: { ...dark, background: dark.surface },
+    light_Button: actionTheme(light, true),
+    dark_Button: actionTheme(dark, true),
+    light_primary: actionTheme(light),
+    dark_primary: actionTheme(dark),
+    light_secondary: actionTheme(light, true),
+    dark_secondary: actionTheme(dark, true),
+    light_accent: accentTheme(light),
+    dark_accent: accentTheme(dark),
+    light_danger: { ...light, background: light.danger, color: light.onDanger },
+    dark_danger: { ...dark, background: dark.danger, color: dark.onDanger },
   },
 
   settings: {
@@ -109,6 +139,8 @@ export const tamaguiConfig = createTamagui({
 type AppTamaguiConfig = typeof tamaguiConfig;
 
 declare module "tamagui" {
+  // Tamagui registers app tokens through interface augmentation.
+  // eslint-disable-next-line @typescript-eslint/no-empty-object-type
   interface TamaguiCustomConfig extends AppTamaguiConfig {}
 }
 

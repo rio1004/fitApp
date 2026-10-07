@@ -1,14 +1,11 @@
+import { useTheme, H5, Image, Separator, SizableText, XStack, YStack } from "tamagui";
 import { AppButton } from "@/components/app-button";
 import { AppCard } from "@/components/app-card";
 import CustomScreen from "@/components/screen";
 import TitleHeader from "@/components/title-header";
-import { Colors } from "@/constants/theme";
 import { CheckCircle2, Plus } from "@tamagui/lucide-icons-2";
-import { useColorScheme } from "react-native";
-import { H5, Image, Separator, SizableText, XStack, YStack } from "tamagui";
 export default function WorkOutScreen() {
-  const scheme = useColorScheme();
-  const colors = Colors[scheme === "unspecified" ? "light" : scheme];
+  const theme = useTheme();
   return (
     <CustomScreen>
       <YStack gap={"$4"}>
@@ -38,13 +35,13 @@ export default function WorkOutScreen() {
           <XStack justifyContent="space-between" alignItems="center">
             <YStack>
               <SizableText fontWeight={"bold"}>Yesterday</SizableText>
-              <SizableText size="$3" color={colors.textSecondary}>
+              <SizableText size="$3" color="$textSecondary">
                 Strength - 45 min
               </SizableText>
             </YStack>
             <CheckCircle2
-              fill={colors.primaryAction}
-              color={"#fff"}
+              fill={theme.primaryAction.get()}
+              color="$onPrimary"
               size={"$3"}
             />
           </XStack>

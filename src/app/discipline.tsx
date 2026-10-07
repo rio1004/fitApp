@@ -1,9 +1,9 @@
+import { useTheme, H1, Separator, SizableText, XStack, YStack } from "tamagui";
 import { AppCard } from "@/components/app-card";
 import { ListComponent } from "@/components/list-item";
 import { ProgressComponent } from "@/components/progress-comp";
 import CustomScreen from "@/components/screen";
 import TitleHeader from "@/components/title-header";
-import { Colors } from "@/constants/theme";
 import {
   ChartNoAxesColumnIncreasing,
   CheckCircle2,
@@ -15,8 +15,6 @@ import {
   Utensils,
 } from "@tamagui/lucide-icons-2";
 import { ComponentType } from "react";
-import { useColorScheme } from "react-native";
-import { H1, Separator, SizableText, XStack, YStack } from "tamagui";
 
 type ListProps = {
   icon: ComponentType<any>;
@@ -62,13 +60,12 @@ const commitments: ListProps[] = [
 ];
 
 export default function DisciplineScreen() {
-  const scheme = useColorScheme();
-  const colors = Colors[scheme === "unspecified" ? "light" : scheme];
+  const theme = useTheme();
 
   const WeekItem = ({ day, status }: WeekItemProps) => (
     <YStack>
       <SizableText>{day}</SizableText>
-      <CheckCircle2 fill={colors.primaryAction} color={"#fff"} size={"$3"} />
+      <CheckCircle2 fill={theme.primaryAction.get()} color="$onPrimary" size={"$3"} />
     </YStack>
   );
   return (
@@ -76,7 +73,8 @@ export default function DisciplineScreen() {
       <YStack gap={"$4"}>
         <TitleHeader hasDate={false} title="Discipline" />
         <XStack
-          backgroundColor={colors.accentSurface}
+          theme="accent"
+            backgroundColor="$background"
           alignItems="center"
           padding={"$3"}
           borderRadius={"$5"}
@@ -119,14 +117,14 @@ export default function DisciplineScreen() {
           <XStack gap={"$5"}>
             <XStack alignItems="center" gap={"$3"}>
               <CheckCircle2
-                fill={colors.primaryAction}
-                color={"#fff"}
+                fill={theme.primaryAction.get()}
+                color="$onPrimary"
                 size={"$2"}
               />
               <SizableText>Complete</SizableText>
             </XStack>
             <XStack alignItems="center" gap={"$3"}>
-              <Clock color={"#cf9f64"} />
+              <Clock color="$warning" />
               <SizableText>Pending</SizableText>
             </XStack>
           </XStack>

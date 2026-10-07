@@ -1,6 +1,7 @@
-import { Colors, MaxContentWidth, Spacing } from "@/constants/theme";
+import { useTheme } from "tamagui";
+import { MaxContentWidth, Spacing } from "@/constants/theme";
 import { ReactNode } from "react";
-import { ScrollView, StyleSheet, useColorScheme } from "react-native";
+import { ScrollView, StyleSheet } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 
 type ScreenProps = {
@@ -9,15 +10,14 @@ type ScreenProps = {
 };
 
 export default function CustomScreen({ children, scroll = true }: ScreenProps) {
-  const scheme = useColorScheme();
-  const colors = Colors[scheme === "unspecified" ? "light" : scheme];
+  const theme = useTheme();
 
   return (
     <SafeAreaView
       style={[
         styles.safeArea,
         {
-          backgroundColor: colors.background,
+          backgroundColor: theme.background.get(),
         },
       ]}
       edges={["top", "left", "right"]}

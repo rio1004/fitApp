@@ -1,7 +1,6 @@
 import { AppButton } from "@/components/app-button";
 import CustomScreen from "@/components/screen";
 import TitleHeader from "@/components/title-header";
-import { Colors } from "@/constants/theme";
 import {
   ChevronLeft,
   ChevronRight,
@@ -12,7 +11,6 @@ import {
   Sun,
 } from "@tamagui/lucide-icons-2";
 import { ComponentType } from "react";
-import { useColorScheme } from "react-native";
 import {
   Card,
   H1,
@@ -56,8 +54,6 @@ const calories: ListProps[] = [
   },
 ];
 export default function HomeScreen() {
-  const scheme = useColorScheme();
-  const colors = Colors[scheme === "unspecified" ? "light" : scheme];
 
   const ListComponent = ({
     icon: Icon,
@@ -68,15 +64,15 @@ export default function HomeScreen() {
     <Card
       padding={"$4"}
       gap={"$2"}
-      border="0.2"
-      borderColor={colors.textSecondary}
+      borderWidth={1}
+      borderColor="$borderColor"
     >
       <XStack alignItems="center" justifyContent="space-between">
         <XStack alignItems="center" gap={"$5"}>
           <Icon size="$3" />
           <YStack>
             <SizableText fontWeight={"bold"}>{lunchType}</SizableText>
-            <SizableText size="$3" color={colors.textSecondary}>
+            <SizableText size="$3" color="$textSecondary">
               {food}
             </SizableText>
           </YStack>
@@ -101,22 +97,22 @@ export default function HomeScreen() {
         <Card
           padding={"$4"}
           gap={"$2"}
-          border="0.2"
-          borderColor={colors.textSecondary}
+          borderWidth={1}
+          borderColor="$borderColor"
         >
           <XStack alignItems="flex-end" justifyContent="space-between">
             <XStack alignItems="flex-end">
               <H1>1,650</H1>
               <SizableText>/2,100 kcal</SizableText>
             </XStack>
-            <SizableText color={colors.primaryAction} fontWeight={"bold"}>
+            <SizableText color="$primaryAction" fontWeight={"bold"}>
               79%
             </SizableText>
           </XStack>
-          <Progress value={70}>
-            <Progress.Indicator backgroundColor={colors.primaryAction} />
+          <Progress backgroundColor="$progressTrack" value={70}>
+            <Progress.Indicator backgroundColor="$primaryAction" />
           </Progress>
-          <SizableText size="$3" color={colors.textSecondary}>
+          <SizableText size="$3" color="$textSecondary">
             450 kcal remaining
           </SizableText>
         </Card>
