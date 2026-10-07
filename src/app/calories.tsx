@@ -10,8 +10,10 @@ import {
   Plus,
   Sun,
 } from "@tamagui/lucide-icons-2";
-import { ComponentType } from "react";
+import { ComponentType, useState } from "react";
+import { calorieGoal, dateKey, dateLabel, useFoodLog } from "@/contexts/food-log";
 import {
+  Button,
   Card,
   H1,
   Progress,
@@ -32,19 +34,19 @@ const calories: ListProps[] = [
     icon: Sun,
     lunchType: "Breakfast",
     food: "Completed",
-    calorie: "304",
+    calorie: "400",
   },
   {
     icon: Hamburger,
     lunchType: "Lunch",
     food: "Completed",
-    calorie: "400",
+    calorie: "550",
   },
   {
     icon: Drumstick,
     lunchType: "Dinner",
     food: "On track",
-    calorie: "450",
+    calorie: "580",
   },
   {
     icon: Cookie,
@@ -54,6 +56,17 @@ const calories: ListProps[] = [
   },
 ];
 export default function HomeScreen() {
+  const { entries, openAddFood } = useFoodLog();
+  const [selectedDate, setSelectedDate] = useState(dateKey);
+  const dailyEntries = entries.filter((entry) => entry.date === selectedDate);
+  const baseTotal = selectedDate === dateKey() ? 1650 : 0;
+  const total = baseTotal + dailyEntries.reduce((sum, entry) => sum + entry.calories, 0);
+  const percent = Math.round(total / calorieGoal * 100);
+  function shiftDate(days: number) {
+    const date = new Date(`${selectedDate}T12:00:00`);
+    date.setDate(date.getDate() + days);
+    setSelectedDate(dateKey(date));
+  }
 
   const ListComponent = ({
     icon: Icon,
@@ -90,9 +103,9 @@ export default function HomeScreen() {
       <YStack gap={"$4"}>
         <TitleHeader hasDate={false} title="Calories" />
         <XStack gap={"$6"} justifyContent="center">
-          <ChevronLeft />
-          <SizableText fontWeight={"bold"}>Today, Sep 24</SizableText>
-          <ChevronRight />
+          <Button chromeless icon={ChevronLeft} minHeight={48} accessibilityLabel="Previous day" onPress={() => shiftDate(-1)} />
+          <SizableText alignSelf="center" fontWeight={"bold"}>{dateLabel(selectedDate)}</SizableText>
+          <Button chromeless icon={ChevronRight} minHeight={48} accessibilityLabel="Next day" onPress={() => shiftDate(1)} />
         </XStack>
         <Card
           padding={"$4"}
@@ -102,18 +115,18 @@ export default function HomeScreen() {
         >
           <XStack alignItems="flex-end" justifyContent="space-between">
             <XStack alignItems="flex-end">
-              <H1>1,650</H1>
+              <H1>{total.toLocaleString()}</H1>
               <SizableText>/2,100 kcal</SizableText>
             </XStack>
             <SizableText color="$primaryAction" fontWeight={"bold"}>
-              79%
+              {percent}%
             </SizableText>
           </XStack>
-          <Progress backgroundColor="$progressTrack" value={70}>
+          <Progress backgroundColor="$progressTrack" value={Math.min(percent, 100)}>
             <Progress.Indicator backgroundColor="$primaryAction" />
           </Progress>
           <SizableText size="$3" color="$textSecondary">
-            450 kcal remaining
+            {Math.abs(calorieGoal - total).toLocaleString()} kcal {total > calorieGoal ? 'over goal' : 'remaining'}
           </SizableText>
         </Card>
         {calories &&
@@ -121,12 +134,12 @@ export default function HomeScreen() {
             <ListComponent
               lunchType={item.lunchType}
               icon={item.icon}
-              food={item.food}
-              calorie={item.calorie}
+              food={dailyEntries.filter((entry) => entry.meal === (item.lunchType === 'Snacks' ? 'Snack' : item.lunchType)).map((entry) => entry.name).join(', ') || (baseTotal ? item.food : 'No foods logged')}
+              calorie={String((baseTotal ? Number(item.calorie) : 0) + dailyEntries.filter((entry) => entry.meal === (item.lunchType === 'Snacks' ? 'Snack' : item.lunchType)).reduce((sum, entry) => sum + entry.calories, 0))}
               key={item.lunchType}
             />
           ))}
-        <AppButton icon={Plus}>Add food</AppButton>
+        <AppButton icon={Plus} onPress={() => openAddFood(selectedDate)}>Add food</AppButton>
       </YStack>
     </CustomScreen>
   );

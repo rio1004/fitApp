@@ -20,6 +20,7 @@ import {
   Utensils,
 } from "@tamagui/lucide-icons-2";
 import { ComponentType } from "react";
+import { calorieGoal, dateKey, useFoodLog } from "@/contexts/food-log";
 
 type ListProps = {
   icon: ComponentType<any>;
@@ -51,6 +52,9 @@ const commitments: ListProps[] = [
 
 export default function HomeScreen() {
   const theme = useTheme();
+  const { entries, openAddFood } = useFoodLog();
+  const total = 1650 + entries.filter((entry) => entry.date === dateKey()).reduce((sum, entry) => sum + entry.calories, 0);
+  const percent = Math.round(total / calorieGoal * 100);
 
   const ListComponent = ({
     icon: Icon,
@@ -106,20 +110,20 @@ export default function HomeScreen() {
           <SizableText fontWeight={"bold"}>Calories today</SizableText>
           <XStack alignItems="flex-end" justifyContent="space-between">
             <XStack alignItems="flex-end">
-              <H1>1,650</H1>
+              <H1>{total.toLocaleString()}</H1>
               <SizableText>/2,100 kcal</SizableText>
             </XStack>
             <SizableText color="$primaryAction" fontWeight={"bold"}>
-              79%
+              {percent}%
             </SizableText>
           </XStack>
-          <Progress backgroundColor="$progressTrack" value={70}>
+          <Progress backgroundColor="$progressTrack" value={Math.min(percent, 100)}>
             <Progress.Indicator backgroundColor="$primaryAction" />
           </Progress>
           <SizableText size="$3" color="$textSecondary">
-            450 kcal remaining
+            {Math.abs(calorieGoal - total).toLocaleString()} kcal {total > calorieGoal ? 'over goal' : 'remaining'}
           </SizableText>
-          <AppButton icon={Plus} theme="primary">
+          <AppButton icon={Plus} theme="primary" onPress={() => openAddFood()}>
             Add food
           </AppButton>
         </Card>

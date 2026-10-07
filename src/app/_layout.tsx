@@ -9,6 +9,7 @@ import { AnimatedSplashOverlay } from "@/components/animated-icon";
 import AppTabs from "@/components/app-tabs";
 import FontStyles from "@/components/font-styles";
 import { fontAssets } from "@/constants/fonts";
+import { FoodLogProvider } from "@/contexts/food-log";
 import { tamaguiConfig } from "../../tamagui.config";
 
 SplashScreen.preventAutoHideAsync();
@@ -34,7 +35,9 @@ export default function TabLayout() {
     >
       <FontStyles />
       <AnimatedSplashOverlay />
-      <AppTabs />
+      <FoodLogProvider>
+        <AppTabs />
+      </FoodLogProvider>
 
       <StatusBar style={colorScheme === "dark" ? "light" : "dark"} />
     </TamaguiProvider>
