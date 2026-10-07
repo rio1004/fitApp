@@ -3,9 +3,13 @@ import { AppButton } from "@/components/app-button";
 import { AppCard } from "@/components/app-card";
 import CustomScreen from "@/components/screen";
 import TitleHeader from "@/components/title-header";
-import { CheckCircle2, Plus } from "@tamagui/lucide-icons-2";
+import { CheckCircle2, Dumbbell, Plus } from "@tamagui/lucide-icons-2";
+import { useState } from "react";
+import { ChangeActivityModal, WorkoutPlan } from "@/components/change-activity-modal";
 export default function WorkOutScreen() {
   const theme = useTheme();
+  const [plan, setPlan] = useState<WorkoutPlan>({ activity: 'Walking', customName: '', minutes: 30 });
+  const [changingActivity, setChangingActivity] = useState(false);
   return (
     <CustomScreen>
       <YStack gap={"$4"}>
@@ -13,20 +17,20 @@ export default function WorkOutScreen() {
         <AppCard>
           <H5>{"Today's workout"}</H5>
           <XStack alignItems="center">
-            <Image
+            {plan.activity === 'Walking' ? <Image
               src={require("@/assets/images/walk.png")}
               width={80}
               height={80}
-            />
+            /> : <YStack width={80} height={80} alignItems="center" justifyContent="center"><Dumbbell size={40} color="$primaryAction" /></YStack>}
             <YStack>
               <SizableText size="$6" fontWeight="700">
-                Walking
+                {plan.activity === 'Custom' ? plan.customName : plan.activity}
               </SizableText>
-              <SizableText>30 min goal</SizableText>
+              <SizableText>{plan.minutes} min goal</SizableText>
             </YStack>
           </XStack>
           <AppButton>Start workout</AppButton>
-          <AppButton theme="secondary" textOnly>
+          <AppButton theme="secondary" textOnly onPress={() => setChangingActivity(true)}>
             Change activity
           </AppButton>
         </AppCard>
@@ -51,6 +55,8 @@ export default function WorkOutScreen() {
           </AppButton>
         </AppCard>
       </YStack>
+      {changingActivity && <ChangeActivityModal initialPlan={plan} onClose={() => setChangingActivity(false)}
+        onSave={(nextPlan) => { setPlan(nextPlan); setChangingActivity(false); }} />}
     </CustomScreen>
   );
 }
